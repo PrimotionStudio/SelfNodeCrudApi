@@ -15,16 +15,18 @@ const register = async (req, res) => {
       .save()
       .then((result) => {
         if (result) {
-          res.json({ message: "New User Created Successfully" });
+          res.status(201).json({ message: "New User Created Successfully" });
         } else {
-          res.json({ message: "Error Creating New User1" });
+          res.status(204).json({ message: "Error Creating New User" });
         }
       })
       .catch((error) => {
-        res.json({ message: error.message });
+        console.log(error);
+        res.status(500).json({ message: error.message });
       });
   } catch (error) {
-    res.json({ message: error.message });
+    console.log(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -41,13 +43,16 @@ const login = async (req, res) => {
         let loginkey = jwt.sign({ name: result.name }, "{73kru.2lU;q!", {
           expiresIn: "1h",
         });
-        res.json({ message: "Login Successful", loginkey: loginkey });
+        res
+          .status(202)
+          .json({ message: "Login Successful", loginkey: loginkey });
       });
     } else {
-      res.json({ message: "An error occured!" });
+      res.status(204).json({ message: "An error occured!" });
     }
   } catch (error) {
-    res.json({ message: "An error occured!" });
+    console.log(error);
+    res.status(500).json({ message: "An error occured!" });
   }
 };
 
@@ -55,13 +60,13 @@ const findall = async (req, res) => {
   try {
     const result = await User.find();
     if (result.length > 0) {
-      res.json(result);
+      res.status(200).json(result);
     } else {
-      res.json({ message: "No users found" });
+      res.status(204).json({ message: "No users found" });
     }
   } catch (error) {
     console.log(error);
-    res.json({ message: "An error occured!" });
+    res.status(500).json({ message: "An error occured!" });
   }
 };
 
@@ -70,13 +75,13 @@ const findone = async (req, res) => {
     let userid = req.params.userid;
     const result = await User.findById(userid);
     if (result != {}) {
-      res.json(result);
+      res.status(200).json(result);
     } else {
-      res.json({ message: "No users found" });
+      res.status(204).json({ message: "No users found" });
     }
   } catch (error) {
     console.log(error);
-    res.json({ message: "An error occured!" });
+    res.status(500).json({ message: "An error occured!" });
   }
 };
 
@@ -85,7 +90,7 @@ const update = async (req, res) => {
     let userid = req.params.userid;
     const user = await User.findById(userid);
     if (!user) {
-      res.json({ message: "No user found" });
+      res.status(204).json({ message: "No user found" });
     }
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
@@ -94,14 +99,14 @@ const update = async (req, res) => {
     user.password = hash || user.password;
     try {
       await user.save();
-      res.json({ message: "User updated successfully" });
+      res.status(201).json({ message: "User updated successfully" });
     } catch (error) {
       console.log(error);
-      res.json({ message: "An error occured!" });
+      res.status(500).json({ message: "An error occured!" });
     }
   } catch (error) {
     console.log(error);
-    res.json({ message: "An error occured!" });
+    res.status(500).json({ message: "An error occured!" });
   }
 };
 
@@ -110,13 +115,13 @@ const deleteUser = async (req, res) => {
     let userid = req.params.userid;
     const result = await User.findByIdAndDelete(userid);
     if (result != {}) {
-      res.json({ message: "User deleted successfully" });
+      res.status(200).json({ message: "User deleted successfully" });
     } else {
-      res.json({ message: "No users found" });
+      res.status(204).json({ message: "No users found" });
     }
   } catch (error) {
     console.log(error);
-    res.json({ message: "An error occured!" });
+    res.status(500).json({ message: "An error occured!" });
   }
 };
 
