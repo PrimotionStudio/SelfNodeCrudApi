@@ -6,12 +6,21 @@
   "scripts": {
     "test": "nodemon app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrimotionStudio/SelfNodeCrudApi.git"
+  },
   "author": "Primeboss",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PrimotionStudio/SelfNodeCrudApi/issues"
+  },
+  "homepage": "https://github.com/PrimotionStudio/SelfNodeCrudApi#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
+    "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.1",
     "morgan": "^1.10.0",
